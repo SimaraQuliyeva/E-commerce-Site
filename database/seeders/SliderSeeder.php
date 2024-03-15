@@ -13,12 +13,12 @@ class SliderSeeder extends Seeder
      */
     public function run(): void
     {
-       Slider::create([
-           'image'=>'https://fakeimg.pl/250x100/',
-        'name'=>'Slider1',
-           'content'=>'E-shopping saytımıza xoş gəldiniz!',
-           'link'=>'products',
-           'status'=>'1'
-       ]);
+        Slider::create([
+            'image' => 'https://fakeimg.pl/250x100/',
+            'name' => 'Slider1',
+            'content' => 'E-shopping saytımıza xoş gəldiniz!',
+            'link' => 'products',
+            'status' => '1'
+        ]);
     }
 }

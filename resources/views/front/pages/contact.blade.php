@@ -15,7 +15,17 @@
                     <h2 class="h3 mb-3 text-black">Get In Touch</h2>
                 </div>
                 <div class="col-md-7">
+                    @if(session()->has('message'))
+                        <div class="alert alert-success">
+                        {{session()->get('message')}}
+                        </div>
+                    @endif
 
+                    @if(count($errors))
+                        @foreach($errors->all() as $error)
+                            <div class="alert alert-danger">{{$error}}</div>
+                        @endforeach
+                    @endif
                     <form action="{{route('front.contact.post')}}" method="post">
                         @csrf
                         <div class="p-3 p-lg-5 border">
@@ -55,18 +65,19 @@
                 </div>
                 <div class="col-md-5 ml-auto">
                     <div class="p-4 border mb-3">
-                        <span class="d-block text-primary h6 text-uppercase">New York</span>
-                        <p class="mb-0">203 Fake St. Mountain View, San Francisco, California, USA</p>
+                        @foreach($settings as $setting)
+                        <span class="d-block text-primary h6 text-uppercase">Address</span>
+                        <p class="mb-0">{{$setting->address}}</p>
                     </div>
-                    <div class="p-4 border mb-3">
-                        <span class="d-block text-primary h6 text-uppercase">London</span>
-                        <p class="mb-0">203 Fake St. Mountain View, San Francisco, California, USA</p>
-                    </div>
-                    <div class="p-4 border mb-3">
-                        <span class="d-block text-primary h6 text-uppercase">Canada</span>
-                        <p class="mb-0">203 Fake St. Mountain View, San Francisco, California, USA</p>
-                    </div>
-
+{{--                    <div class="p-4 border mb-3">--}}
+{{--                        <span class="d-block text-primary h6 text-uppercase">London</span>--}}
+{{--                        <p class="mb-0">203 Fake St. Mountain View, San Francisco, California, USA</p>--}}
+{{--                    </div>--}}
+{{--                    <div class="p-4 border mb-3">--}}
+{{--                        <span class="d-block text-primary h6 text-uppercase">Canada</span>--}}
+{{--                        <p class="mb-0">203 Fake St. Mountain View, San Francisco, California, USA</p>--}}
+{{--                    </div>--}}
+                    @endforeach
                 </div>
             </div>
         </div>

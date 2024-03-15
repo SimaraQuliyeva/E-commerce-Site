@@ -23,7 +23,7 @@ Route::group(['middleware'=>'setting'],function (){
     Route::get('/product/child',[PageController::class, 'product'])->name('front.children-product');
     Route::get('/product/sale',[PageController::class, 'sale'])->name('front.sale-product');
 
-    Route::get('/product/details',[PageController::class, 'productDetails'])->name('front.product.details');
+    Route::get('/product/{slug}',[PageController::class, 'productDetails'])->name('front.product.details');
 
     Route::get('/about',[PageController::class, 'about'])->name('front.about');
     Route::get('/contact',[PageController::class, 'contact'])->name('front.contact');
