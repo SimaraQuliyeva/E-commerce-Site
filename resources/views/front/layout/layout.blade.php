@@ -18,7 +18,7 @@
 <script src='{{asset ("front/js/owl.carousel.min.js") }}'></script>
 <script src='{{asset ("front/js/jquery.magnific-popup.min.js") }}'></script>
 <script src='{{asset ("front/js/aos.js") }}'></script>
-
+@yield('customJs')
 <script src='{{asset ("front/js/main.js") }}'></script>
 
 </body>

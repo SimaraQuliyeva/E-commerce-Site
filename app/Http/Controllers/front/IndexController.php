@@ -12,9 +12,7 @@ class IndexController extends Controller
     public function index(){
         $slider=Slider::all();
 //        dd($slider);
-
-        $categories=Category::where('status','1')->get();
         $about=About::where('id', 1)->get();
-        return view('front.pages.index', compact('slider','categories', 'about'));
+        return view('front.pages.index', compact('slider', 'about'));
     }
 }

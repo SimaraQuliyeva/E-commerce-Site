@@ -51,11 +51,11 @@
                             @foreach($categories as $category)
                                 @if($category->cat_child ==null)
                                     <li class="has-children">
-                                        <a href="#">{{$category->name}}</a>
+                                        <a href="{{route('front.product', $category->slug)}}">{{$category->name}}</a>
                                         <ul class="dropdown">
                                             @foreach($categories as $subCategory)
                                                 @if($subCategory->cat_child ==$category->id)
-                                                    <li><a href="#">{{$subCategory->name}}</a></li>
+                                                    <li><a href="{{ route('front.product', [$category->slug,  $subCategory->slug]) }}">{{ $subCategory->name }}</a></li>
                                                 @endif
                                             @endforeach
                                         </ul>

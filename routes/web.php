@@ -18,9 +18,9 @@ use Illuminate\Support\Facades\Route;
 Route::group(['middleware'=>'setting'],function (){
     Route::get('/',[IndexController::class, 'index'])->name('front.index');
     Route::get('/product',[PageController::class, 'product'])->name('front.product');
-    Route::get('/product/man',[PageController::class, 'product'])->name('front.men-product');
-    Route::get('/product/woman',[PageController::class, 'product'])->name('front.women-product');
-    Route::get('/product/child',[PageController::class, 'product'])->name('front.children-product');
+    Route::get('/product/man{slug?}',[PageController::class, 'product'])->name('front.men-product');
+    Route::get('/product/woman{slug?}',[PageController::class, 'product'])->name('front.women-product');
+    Route::get('/product/child{slug?}',[PageController::class, 'product'])->name('front.children-product');
     Route::get('/product/sale',[PageController::class, 'sale'])->name('front.sale-product');
 
     Route::get('/product/{slug}',[PageController::class, 'productDetails'])->name('front.product.details');
