@@ -10,15 +10,16 @@ use Illuminate\Http\Request;
 
 class PageController extends Controller
 {
-    public function product(Request $request)
+    public function product(Request $request, $slug=null)
     {
+        $category=request()->segment(1) ?? null;
         $size = $request->size ?? null;
         $color = $request->color ?? null;
         $startPrice = $request->start_price ?? null;
         $endPrice = $request->end_price ?? null;
 
         $orderBy = $request->orderBy ?? 'id';
-        $short = $request->short ?? 'desc';
+        $sort = $request->sort ?? 'desc';
 
         $products = Product::where('status', '1')->select(['id', 'name', 'slug', 'size', 'color', 'price', 'category_id', 'image'])
             ->where(function ($q) use ($size, $color, $startPrice, $endPrice) {
@@ -33,7 +34,14 @@ class PageController extends Controller
                 }
                 return $q;
             })
-            ->with('category:id,name,slug');
+            ->with('category:id,name,slug')
+            ->whereHas('category', function ($query) use($category, $slug){
+                if(!empty($slug)){
+                $query->where('slug', $slug);
+                }
+                return $query;
+            });
+
         $minPrice = $products->min('price');
         $maxPrice = $products->max('price');
 
@@ -42,10 +50,9 @@ class PageController extends Controller
         $colors =  Product::where('status', '1')->groupBy('color')->pluck('color')->toArray();
 
 
-        $products = $products->orderBy($orderBy, $short)->paginate(20);
+        $products = $products->orderBy($orderBy, $sort)->paginate(20);
 
-        $categories = Category::where('status', '1')->where('cat_child', null)->withCount('products')->get();
-        return view('front.pages.product', compact('products', 'categories',
+        return view('front.pages.product', compact('products',
             'minPrice', 'maxPrice', 'sizeList', 'colors'));
 
     }

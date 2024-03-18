@@ -20,7 +20,7 @@ class SettingMiddleware
 
         $settings = Setting::get();
 
-        $categories = Category::where('status', '1')->withCount('products')->get();
+        $categories = Category::where('status', '1')->with('subCategory')->withCount('products')->get();
 
         view()->share(['settings' => $settings, 'categories'=>$categories]);
         return $next($request);
