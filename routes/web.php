@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AjaxController;
+use App\Http\Controllers\front\CartController;
 use App\Http\Controllers\front\IndexController;
 use App\Http\Controllers\front\PageController;
 use Illuminate\Support\Facades\Route;
@@ -28,7 +29,11 @@ Route::group(['middleware'=>'setting'],function (){
     Route::get('/about',[PageController::class, 'about'])->name('front.about');
     Route::get('/contact',[PageController::class, 'contact'])->name('front.contact');
     Route::post('/contact',[AjaxController::class, 'contactSave'])->name('front.contact.post');
-    Route::get('/cart',[PageController::class, 'cart'])->name('front.cart');
+
+    Route::get('/cart',[CartController::class, 'index'])->name('front.cart');
+    Route::post('/cart/add',[CartController::class, 'add'])->name('front.cart.add');
+    Route::post('/cart/delete',[CartController::class,'delete'])->name('front.cart.delete');
+
 
 });
 

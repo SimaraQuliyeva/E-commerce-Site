@@ -24,12 +24,12 @@
                             <li>
                                 <a href="{{route('front.cart')}}" class="site-cart">
                                     <span class="icon icon-shopping_cart"></span>
-                                    <span class="count">2</span>
+                                    <span class="count">{{count(session('cart')) }}</span>
                                 </a>
                             </li>
                             <li class="d-inline-block d-md-none ml-md-0"><a href="#"
-                                                                            class="site-menu-toggle js-menu-toggle"><span
-                                        class="icon-menu"></span></a></li>
+                                class="site-menu-toggle js-menu-toggle"><span
+                                 class="icon-menu"></span></a></li>
                         </ul>
                     </div>
                 </div>
@@ -49,14 +49,16 @@
                     <ul class="dropdown">
                         @if(!empty($categories) && $categories->count()>0)
                             @foreach($categories->where('cat_child', null) as $category)
-                                    <li class="has-children">
-                                        <a href="{{route('front.product', $category->slug)}}">{{$category->name}}</a>
-                                        <ul class="dropdown">
-                                            @foreach($category->subCategory as $subCategory)
-                                                    <li><a href="{{ route('front.product', [$category->slug,  $subCategory->slug]) }}">{{ $subCategory->name }}</a></li>
-                                            @endforeach
-                                        </ul>
-                                    </li>
+                                <li class="has-children">
+                                    <a href="{{route('front.product', $category->slug)}}">{{$category->name}}</a>
+                                    <ul class="dropdown">
+                                        @foreach($category->subCategory as $subCategory)
+                                            <li>
+                                                <a href="{{ route('front.product', [$category->slug,  $subCategory->slug]) }}">{{ $subCategory->name }}</a>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </li>
                             @endforeach
                         @endif
                     </ul>

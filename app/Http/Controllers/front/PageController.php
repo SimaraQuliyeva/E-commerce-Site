@@ -50,7 +50,7 @@ class PageController extends Controller
         $colors =  Product::where('status', '1')->groupBy('color')->pluck('color')->toArray();
 
 
-        $products = $products->orderBy($orderBy, $sort)->paginate(20);
+        $products = $products->orderBy($orderBy, $sort)->paginate(21);
 
         return view('front.pages.product', compact('products',
             'minPrice', 'maxPrice', 'sizeList', 'colors'));
@@ -82,9 +82,5 @@ class PageController extends Controller
         return view('front.pages.contact');
     }
 
-    public function cart()
-    {
-        return view('front.pages.cart');
-    }
 
 }

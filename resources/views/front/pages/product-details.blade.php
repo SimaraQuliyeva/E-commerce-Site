@@ -11,6 +11,17 @@
     <div class="site-section">
         <div class="container">
             <div class="row">
+                @if(session('success'))
+                    <div class="alert alert-success mt-3">
+                        {{ session('success') }}
+                    </div>
+                @endif
+                @if(session('error'))
+                    <div class="alert alert-danger mt-3">
+                        {{ session('error') }}
+                    </div>
+                @endif
+
                 <div class="col-md-6">
                     <img src='{{asset($products->image) }}' alt="Image" class="img-fluid">
                 </div>
@@ -20,33 +31,40 @@
 {{--                        @endforeach--}}
                     <p>{!! $products->content !!}</p>
                     <p><strong class="text-primary h4">${{number_format($products->price,2)}}</strong></p>
-                    <div class="mb-1 d-flex">
-                        <label for="option-sm" class="d-flex mr-3 mb-3">
-                            <span class="d-inline-block mr-2" style="top:-2px; position: relative;"><input type="radio" id="option-sm" name="shop-sizes"></span> <span class="d-inline-block text-black">Small</span>
-                        </label>
-                        <label for="option-md" class="d-flex mr-3 mb-3">
-                            <span class="d-inline-block mr-2" style="top:-2px; position: relative;"><input type="radio" id="option-md" name="shop-sizes"></span> <span class="d-inline-block text-black">Medium</span>
-                        </label>
-                        <label for="option-lg" class="d-flex mr-3 mb-3">
-                            <span class="d-inline-block mr-2" style="top:-2px; position: relative;"><input type="radio" id="option-lg" name="shop-sizes"></span> <span class="d-inline-block text-black">Large</span>
-                        </label>
-                        <label for="option-xl" class="d-flex mr-3 mb-3">
-                            <span class="d-inline-block mr-2" style="top:-2px; position: relative;"><input type="radio" id="option-xl" name="shop-sizes"></span> <span class="d-inline-block text-black"> Extra Large</span>
-                        </label>
-                    </div>
-                    <div class="mb-5">
-                        <div class="input-group mb-3" style="max-width: 120px;">
-                            <div class="input-group-prepend">
-                                <button class="btn btn-outline-primary js-btn-minus" type="button">&minus;</button>
-                            </div>
-                            <input type="text" class="form-control text-center" value="1" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
-                            <div class="input-group-append">
-                                <button class="btn btn-outline-primary js-btn-plus" type="button">&plus;</button>
+                    <form action="{{route('front.cart.add')}}" method="post">
+                        @csrf
+                        <input type="hidden" name="productId" value="{{$products->id}}">
+                        <div class="mb-1 d-flex">
+                            <label for="xs" class="d-flex mr-3 mb-3">
+                                <span class="d-inline-block mr-2" style="top:-2px; position: relative;"><input type="radio" id="xs" name="size" {{$products->size == 'XS' ? 'checked':''}} value="XS"></span> <span class="d-inline-block text-black">XS</span>
+                            </label>
+                            <label for="s" class="d-flex mr-3 mb-3">
+                                <span class="d-inline-block mr-2" style="top:-2px; position: relative;"><input type="radio" id="s" name="size" {{$products->size == 'S' ? 'checked':''}} value="S"></span> <span class="d-inline-block text-black">S</span>
+                            </label>
+                            <label for="m" class="d-flex mr-3 mb-3">
+                                <span class="d-inline-block mr-2" style="top:-2px; position: relative;"><input type="radio" id="m" name="size"  {{$products->size == 'M' ? 'checked':''}}value="M"></span> <span class="d-inline-block text-black">M</span>
+                            </label>
+                            <label for="l" class="d-flex mr-3 mb-3">
+                                <span class="d-inline-block mr-2" style="top:-2px; position: relative;"><input type="radio" id="l" name="size"  {{$products->size == 'L' ? 'checked':''}}value="L"></span> <span class="d-inline-block text-black">L</span>
+                            </label>
+                            <label for="xl" class="d-flex mr-3 mb-3">
+                                <span class="d-inline-block mr-2" style="top:-2px; position: relative;"><input type="radio" id="xl" name="size"  {{$products->size == 'XL' ? 'checked':''}} value="XL"></span> <span class="d-inline-block text-black">XL</span>
+                            </label>
+                        </div>
+                        <div class="mb-5">
+                            <div class="input-group mb-3" style="max-width: 120px;">
+                                <div class="input-group-prepend">
+                                    <button class="btn btn-outline-primary js-btn-minus" type="button">&minus;</button>
+                                </div>
+                                <input type="text" class="form-control text-center" value="1" name="quantity" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-primary js-btn-plus" type="button">&plus;</button>
+                                </div>
                             </div>
                         </div>
+                        <p><button type="submit"  class="buy-now btn btn-sm btn-primary">Add To Cart</button></p>
 
-                    </div>
-                    <p><a href="{{route('front.cart')}}" class="buy-now btn btn-sm btn-primary">Add To Cart</a></p>
+                    </form>
 
                 </div>
             </div>

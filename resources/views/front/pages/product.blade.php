@@ -10,7 +10,16 @@
 
     <div class="site-section">
         <div class="container">
-
+            @if(session('success'))
+                <div class="alert alert-success mt-3">
+                    {{ session('success') }}
+                </div>
+            @endif
+            @if(session('error'))
+                <div class="alert alert-danger mt-3">
+                    {{ session('error') }}
+                </div>
+            @endif
             <div class="row mb-5">
                 <div class="col-md-9 order-2">
 
@@ -40,6 +49,9 @@
                             @foreach($products as $product)
                                 <div class="col-sm-6 col-lg-4 mb-4" data-aos="fade-up">
                                     <div class="block-4 text-center border">
+                                        <form action="{{route('front.cart.add')}}" method="post">
+                                            @csrf
+                                            <input type="hidden" name="productId" value="{{$product->id}}">
                                         <figure class="block-4-image">
                                             <a href="{{route('front.product.details', $product->slug)}}"><img src='{{asset($product->image) }}' alt="Image placeholder" class="img-fluid"></a>
                                         </figure>
@@ -47,7 +59,9 @@
                                             <h3><a href="{{route('front.product.details',$product->slug)}}">{{$product->name}}</a></h3>
                                             <p class="mb-0">{{$product->details}}</p>
                                             <p class="text-primary font-weight-bold">${{$product->price}}</p>
+                                            <p><button type="submit"  class="buy-now btn btn-sm btn-primary">Add To Cart</button></p>
                                         </div>
+                                        </form>
                                     </div>
                                 </div>
                             @endforeach
