@@ -43,7 +43,7 @@ class CartController extends Controller
        }
        session(['cart'=>$cartItem]);
 
-        return redirect()->route('front.cart')->withSuccess('Product added');
+        return back()->withSuccess('Product added');
     }
 
     public function delete(Request $request){
