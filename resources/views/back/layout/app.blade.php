@@ -19,7 +19,12 @@
     <!-- inject:css -->
     <link rel="stylesheet" href="{{asset('back/css/vertical-layout-light/style.css')}}">
     <!-- endinject -->
-    <link rel="shortcut icon" href="{{asset('back/images/favicon.png')}}" />
+    <link rel="shortcut icon" href="{{asset('back/images/favicon.png')}}">
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.min.css"/>
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
+
+
 </head>
 <body>
 <div class="container-scroller">
@@ -215,6 +220,9 @@
 <!-- container-scroller -->
 
 <!-- plugins:js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+  integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+ crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="{{asset('back/vendors/js/vendor.bundle.base.js')}} "></script>
 <!-- endinject -->
 <!-- Plugin js for this page -->
@@ -236,6 +244,27 @@
 <script src="{{asset('back/js/Chart.roundedBarCharts.js')}} "></script>
 <!-- End custom js for this page-->
 <script src="{{asset('back/js/file-upload.js')}} "></script>
+<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(function() {
+            var successDiv = document.getElementById('success-div');
+            if (successDiv) {
+                successDiv.style.display = 'none';
+            }
+
+            var errorDiv = document.getElementById('error-div');
+            if (errorDiv) {
+                errorDiv.style.display = 'none';
+            }
+        }, 5000);
+    });
+</script>
+
+@yield('customJs')
 </body>
 
 </html>

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\SliderRequest;
 use App\Models\Slider;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class SliderController extends Controller
 {
@@ -23,7 +24,7 @@ class SliderController extends Controller
      */
     public function create()
     {
-        return view('back.pages.slider.create');
+        return view('back.pages.slider.edit');
     }
 
     /**
@@ -70,7 +71,22 @@ class SliderController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $slider = Slider::findOrFail($id);
+        if ($request->hasFile('image')) {
+            if (Storage::disk('public')->exists($slider->image)) {
+                Storage::disk('public')->delete($slider->image);
+            }
+            $slider->image = $request->file('image')->store('slider_images', 'public');
+        }
+        Slider::where('id', $id)->update([
+            'name' => $request->input('name'),
+            'content' => $request->input('content'),
+            'link' => $request->input('link') ?? null,
+            'image' => $imagePath ?? null,
+            'status' => $request->input('status'),
+        ]);
+
+        return redirect()->route('admin.slider')->with('success', 'Slider updated successfully!');
     }
 
     /**
@@ -78,6 +94,14 @@ class SliderController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $slider = Slider::where('id', $id)->firstOrFail();
+
+        if (!empty($slider->image) && Storage::disk('public')->exists($slider->image)) {
+            Storage::disk('public')->delete($slider->image);
+        }
+        $slider->delete();
+        return redirect()->route('admin.slider')->with('error', 'Slider deleted successfully!');
+
     }
+
 }

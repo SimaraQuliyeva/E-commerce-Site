@@ -12,12 +12,12 @@
                         </p>
                         <div class="table-responsive">
                             @if(session('success'))
-                                <div class="alert alert-success mt-3">
+                                <div class="alert alert-success mt-3" id="success-div">
                                     {{ session('success') }}
                                 </div>
                             @endif
                             @if(session('error'))
-                                <div class="alert alert-danger mt-3">
+                                <div class="alert alert-danger mt-3" id="error-div">
                                     {{ session('error') }}
                                 </div>
                             @endif
@@ -43,15 +43,20 @@
                                             <td>{{$slider->name}}</td>
                                             <td>{{$slider->content ?? ''}}</td>
                                             <td>{{$slider->link}}</td>
-                                            <td><label
-                                                    class="badge badge-{{$slider->status == '1' ? 'success': 'danger'}}">{{$slider->status == '1' ? 'active': 'passive'}}</label>
+                                            <td>
+                                                <div class="checkbox" item-id="{{$slider->id}}">
+                                                    <label>
+                                                        <input type="checkbox" class="status"  data-on="active" data-off="passive" data-onstyle="success"
+                                                               data-offstyle="danger" {{$slider->status== '1' ? 'checked': ''}} data-toggle="toggle">
+                                                    </label>
+                                                </div>
                                             </td>
                                             <td class="d-flex">
-                                                <a href="{{route('admin.slider.edit', $slider->id)}}" class="btn btn-success mr-2">Edit</a>
+                                                <a href="{{route('admin.slider.edit', $slider->id)}}" class="btn btn-primary mr-2 btn-sm">Edit</a>
                                                 <form action="{{route('admin.slider.delete', $slider->id)}}" method="post">
                                                     @csrf
                                                     @method('DELETE')
-                                                <button type="submit" class="btn btn-danger">Delete</button>
+                                                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                                                 </form>
                                             </td>
                                         </tr>
@@ -67,5 +72,18 @@
 
         </div>
     </div>
+@endsection
 
+@section('customJs')
+<script>
+    alertify
+        .alert("This is an alert dialog.", function(){
+            alertify.message('OK');
+        });
+</script>
+    <script>
+        $(document).on('change', '.status', function(e){
+            alert('test');
+        });
+    </script>
 @endsection
