@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ContactFormRequest extends FormRequest
+class SliderRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -19,26 +19,22 @@ class ContactFormRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
-
     public function rules(): array
     {
         return [
-            'c_name'=>'required|string',
-            'c_email'=>'required|email',
-            'c_subject'=>'required',
-            'c_message'=>'required'
+            'name' => 'required|string',
+            'content' => 'required|string',
+            'link' => 'nullable|string',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+            'status' => 'required',
         ];
     }
 
     public function messages(): array
     {
         return [
-            'c_name.required'=>'Fill your Name',
-            'c_name.string'=>'Please enter A-Z, 0-9 characters',
-            'c_name.min'=>'Name must be 4 character',
-            'c_email.required'=>'Fill your Email',
-            'c_subject.required'=>'Fill Subject',
-            'c_message.required'=>'Please, write your message',
+            'name.required'=>'Fill your Name',
+            'content.required'=>'Content does not be empty',
         ];
     }
 }

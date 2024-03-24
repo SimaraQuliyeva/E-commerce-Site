@@ -1,9 +1,11 @@
 <?php
 
 use App\Http\Controllers\AjaxController;
+use App\Http\Controllers\Auth\CustomAuthController;
 use App\Http\Controllers\front\CartController;
 use App\Http\Controllers\front\IndexController;
 use App\Http\Controllers\front\PageController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -35,5 +37,9 @@ Route::group(['middleware'=>'setting'],function (){
     Route::post('/cart/delete',[CartController::class,'delete'])->name('front.cart.delete');
 
 
+    Auth::routes();
+
+//    Route::get('/login', [CustomAuthController::class, 'login'])->name('login');
+    Route::get('/logOut', [AjaxController::class, 'logOut'])->name('logOut');
 });
 

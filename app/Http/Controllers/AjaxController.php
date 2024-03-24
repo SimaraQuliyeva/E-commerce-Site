@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ContactFormRequest;
 use App\Models\Contact;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AjaxController extends Controller
 {
@@ -23,5 +24,10 @@ class AjaxController extends Controller
          $lastsaved= Contact::create($data);
          return back()->with(['message'=>'Your message has been delivered!']);
 
+    }
+
+    public function logOut(){
+        Auth::logout();
+        return redirect()->route('front.index');
     }
 }
