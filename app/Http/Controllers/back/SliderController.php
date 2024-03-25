@@ -104,4 +104,14 @@ class SliderController extends Controller
 
     }
 
+    public function status(Request $request)
+    {
+        $update = $request->statu;
+        $status = $update == 'true' ? true : false;
+
+        Slider::where('id', $request->id)->update(['status' => $status]);
+
+        return response(['error' => false, 'status' => $status]);
+    }
+
 }

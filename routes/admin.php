@@ -10,8 +10,10 @@ Route::group(['middleware'=>['adminSetting'], 'prefix'=>'admin', 'as'=>'admin.']
     Route::get('/slider/create',[SliderController::class, 'create'])->name('slider.create');
     Route::get('/slider/{id}/edit',[SliderController::class, 'edit'])->name('slider.edit');
     Route::post('/slider/store',[SliderController::class, 'store'])->name('slider.store');
-    Route::put('/slider/{id}/update',[SliderController::class, 'update'])->name('slider.update');
     Route::delete('/slider/{id}/delete',[SliderController::class, 'destroy'])->name('slider.destroy');
+
+    Route::post('/slider-status/update',[SliderController::class, 'status'])->name('slider.status');
+    Route::put('/slider/{id}/update',[SliderController::class, 'update'])->name('slider.update');
 
 });
 

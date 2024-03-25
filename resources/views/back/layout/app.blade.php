@@ -20,6 +20,8 @@
     <link rel="stylesheet" href="{{asset('back/css/vertical-layout-light/style.css')}}">
     <!-- endinject -->
     <link rel="shortcut icon" href="{{asset('back/images/favicon.png')}}">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.min.css"/>
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
@@ -263,7 +265,6 @@
         }, 5000);
     });
 </script>
-
 @yield('customJs')
 </body>
 

@@ -47,13 +47,13 @@
                                                 <div class="checkbox" item-id="{{$slider->id}}">
                                                     <label>
                                                         <input type="checkbox" class="status"  data-on="active" data-off="passive" data-onstyle="success"
-                                                               data-offstyle="danger" {{$slider->status== '1' ? 'checked': ''}} data-toggle="toggle">
+                                                               data-offstyle="danger" {{$slider->status == '1' ? 'checked': ''}} data-toggle="toggle">
                                                     </label>
                                                 </div>
                                             </td>
                                             <td class="d-flex">
                                                 <a href="{{route('admin.slider.edit', $slider->id)}}" class="btn btn-primary mr-2 btn-sm">Edit</a>
-                                                <form action="{{route('admin.slider.delete', $slider->id)}}" method="post">
+                                                <form action="{{route('admin.slider.destroy', $slider->id)}}" method="post">
                                                     @csrf
                                                     @method('DELETE')
                                                 <button type="submit" class="btn btn-danger btn-sm">Delete</button>
@@ -75,15 +75,36 @@
 @endsection
 
 @section('customJs')
-<script>
-    alertify
-        .alert("This is an alert dialog.", function(){
-            alertify.message('OK');
-        });
-</script>
+{{--<script>--}}
+{{--    alertify--}}
+{{--        .alert("This is an alert dialog.", function(){--}}
+{{--            alertify.message('OK');--}}
+{{--        });--}}
+{{--</script>--}}
     <script>
-        $(document).on('change', '.status', function(e){
-            alert('test');
+        $(document).on('change', '.status', function(e) {
+
+            id=$(this).closest('.checkbox').attr('item-id');
+            statu=$(this).prop('checked').toString();
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                type:"POST",
+                url:"{{route('admin.slider.status') }}",
+                data:{
+                    id:id,
+                    statu:statu
+                },
+                success: function (response) {
+                    if (response.status == true)
+                    {
+                        alertify.success("Status is active");
+                    } else{
+                        alertify.error("Status is passive");
+                    }
+                }
+            });
         });
     </script>
 @endsection
