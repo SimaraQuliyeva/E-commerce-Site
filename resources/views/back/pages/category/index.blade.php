@@ -8,7 +8,7 @@
                     <div class="card-body">
                         <h4 class="card-title">Sliders Table</h4>
                         <p class="card-description">
-                            <a href="{{route('admin.slider.create')}}" class="btn btn-primary">+Add</a>
+                            <a href="{{route('admin.category.create')}}" class="btn btn-primary">+Add</a>
                         </p>
                         <div class="table-responsive">
                             @if(session('success'))
@@ -33,32 +33,25 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @if(!empty($sliders) && $sliders->count() > 0)
-                                    @foreach($sliders as $slider)
-                                        <tr class="item" item-id="{{$slider->id}}">
+                                @if(!empty($categories) && $categories->count() > 0)
+                                    @foreach($categories as $category)
+                                        <tr class="item" item-id="{{$category->id}}">
                                             <td class="py-1">
-                                                <img src="{{ Storage::url($slider->image) }}" alt="image"
+                                                <img src="{{ Storage::url($category->image) }}" alt="image"
                                                      style="width: 50px; height: 50px"/>
                                             </td>
-                                            <td>{{$slider->name}}</td>
-                                            <td>{{$slider->content ?? ''}}</td>
-                                            <td>{{$slider->link}}</td>
+                                            <td>{{$category->name}}</td>
+                                            <td>{{$category->category->name ?? ''}}</td>
                                             <td>
                                                 <div class="checkbox">
                                                     <label>
                                                         <input type="checkbox" class="status"  data-on="active" data-off="passive" data-onstyle="success"
-                                                               data-offstyle="danger" {{$slider->status == '1' ? 'checked': ''}} data-toggle="toggle">
+                                                               data-offstyle="danger" {{$category->status == '1' ? 'checked': ''}} data-toggle="toggle">
                                                     </label>
                                                 </div>
                                             </td>
                                             <td class="d-flex">
-                                                <a href="{{route('admin.slider.edit', $slider->id)}}" class="btn btn-primary mr-2 btn-sm">Edit</a>
-
-{{--                                                <form action="{{route('admin.slider.destroy', $slider->id)}}" method="post">--}}
-{{--                                                    @csrf--}}
-{{--                                                    @method('DELETE')--}}
-{{--                                                </form>--}}
-
+                                                <a href="{{route('admin.category.edit', $category->id)}}" class="btn btn-primary mr-2 btn-sm">Edit</a>
                                                 <button type="button" class="del btn btn-danger btn-sm">Delete</button>
                                             </td>
                                         </tr>
@@ -77,12 +70,6 @@
 @endsection
 
 @section('customJs')
-{{--<script>--}}
-{{--    alertify--}}
-{{--        .alert("This is an alert dialog.", function(){--}}
-{{--            alertify.message('OK');--}}
-{{--        });--}}
-{{--</script>--}}
     <script>
         $(document).on('change', '.status', function(e) {
 
@@ -93,7 +80,7 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 type:"POST",
-                url:"{{route('admin.slider.status') }}",
+                url:"{{route('admin.category.status') }}",
                 data:{
                     id:id,
                     statu:statu
@@ -121,7 +108,7 @@
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
                         type:"DELETE",
-                        url:"{{route('admin.slider.destroy') }}",
+                        url:"{{route('admin.category.destroy') }}",
                         data:{
                             id:id,
                         },
@@ -135,7 +122,7 @@
                             }
                         }
                     });
-                    },
+                },
                 function(){
                     alertify.error('Canceled');
                 });

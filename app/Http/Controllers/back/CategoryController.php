@@ -3,20 +3,20 @@
 namespace App\Http\Controllers\back;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\SliderRequest;
-use App\Models\Slider;
+use App\Http\Requests\CategoryRequest;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
-class SliderController extends Controller
+class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-       $sliders= Slider::all();
-        return view('back.pages.slider.index',compact('sliders'));
+        $categories = Category::with('category:id, cat_child, name')->get();
+        return view('back.pages.category.index', compact('categories'));
     }
 
     /**
@@ -24,28 +24,28 @@ class SliderController extends Controller
      */
     public function create()
     {
-        return view('back.pages.slider.edit');
+        $categories = Category::get();
+        return view('back.pages.category.edit', compact('categories'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
 
-    public function store(SliderRequest $request)
+    public function store(CategoryRequest $request)
     {
-        $imagePath = $request->file('image')->store('slider_images', 'public');
+        $imagePath = $request->file('image')->store('category_images', 'public');
 
-        Slider::create([
+        Category::create([
             'name' => $request->input('name'),
+            'cat_child' => $request->input('cat_child'),
             'content' => $request->input('content'),
-            'link' => $request->input('link') ?? null,
             'image' => $imagePath ?? null,
             'status' => $request->input('status'),
         ]);
 
-        return redirect()->route('admin.slider')->with('success', 'Slider added successfully!');
+        return redirect()->route('admin.category.index')->with('success', 'Category added successfully!');
     }
-
 
 
     /**
@@ -61,8 +61,10 @@ class SliderController extends Controller
      */
     public function edit(string $id)
     {
-       $slider= Slider::where('id', $id)->first();
-        return view('back.pages.slider.edit',compact('slider'));
+        $category = Category::where('id', $id)->first();
+        $categories = Category::get();
+        return view('back.pages.category.edit', compact('category', 'categories'));
+//        $categories = Category::where('cat_child', null)->get(); ancaq man/woman/child gorunsun category
 
     }
 
@@ -71,24 +73,24 @@ class SliderController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $slider = Slider::findOrFail($id);
-        $imagePath = $slider->image;
+        $category = Category::findOrFail($id);
+        $imagePath = $category->image;
         if ($request->hasFile('image')) {
             if (!empty($imagePath) && Storage::disk('public')->exists($imagePath)) {
                 Storage::disk('public')->delete($imagePath);
             }
-            $imagePath = $request->file('image')->store('slider_images', 'public');
+            $imagePath = $request->file('image')->store('category_images', 'public');
         }
 
-        Slider::where('id', $id)->update([
+        Category::where('id', $id)->update([
             'name' => $request->input('name'),
+            'cat_child' => $request->input('cat_child'),
             'content' => $request->input('content'),
-            'link' => $request->input('link') ?? null,
             'image' => $imagePath ?? null,
             'status' => $request->input('status'),
         ]);
 
-        return redirect()->route('admin.slider')->with('success', 'Slider updated successfully!');
+        return redirect()->route('admin.category.index')->with('success', 'Category updated successfully!');
     }
 
     /**
@@ -96,11 +98,11 @@ class SliderController extends Controller
      */
     public function destroy(Request $request)
     {
-        $slider = Slider::where('id', $request->id)->firstOrFail();
+        $category = Category::where('id', $request->id)->firstOrFail();
 
-       deleteFunc($slider->image);
-        $slider->delete();
-        return response(['error'=>false, 'message'=>'Slider deleted successfully']);
+        deleteFunc($category->image);
+        $category->delete();
+        return response(['error' => false, 'message' => 'Category deleted successfully']);
 
     }
 
@@ -109,9 +111,8 @@ class SliderController extends Controller
         $update = $request->statu;
         $status = $update == 'true' ? true : false;
 
-        Slider::where('id', $request->id)->update(['status' => $status]);
+        Category::where('id', $request->id)->update(['status' => $status]);
 
         return response(['error' => false, 'status' => $status]);
     }
-
 }

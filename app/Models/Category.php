@@ -29,6 +29,10 @@ class Category extends Model
         return $this->hasMany(Category::class, 'cat_child', 'id');
     }
 
+    public function category(){
+        return $this->hasOne(Category::class,  'id','cat_child');
+    }
+
     public function sluggable(): array
     {
         return [

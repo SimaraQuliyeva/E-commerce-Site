@@ -350,7 +350,7 @@
           }
         },
         xaxis: {
-          mode: "categories",
+          mode: "category",
           tickLength: 0
         },
 

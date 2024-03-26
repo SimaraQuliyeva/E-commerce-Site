@@ -23,7 +23,7 @@
                 @endphp
             @else
                 @php
-                    $routeLink=route('admin.slider.store', $slider->id);
+                    $routeLink=route('admin.slider.store');
                 @endphp
             @endif
             <form  action="{{$routeLink}}" class="forms-sample" method="post" enctype="multipart/form-data">
@@ -63,7 +63,7 @@
 
                 <div class="form-group">
                     <div class="input-group col-xs-12">
-                      <img src="{{asset($slider->image ?? 'img/empty.webp') }}" alt="">
+                      <img src="{{ Storage::url($slider->image ?? 'img/empty.webp') }}" alt="">
                     </div>
                 </div>
 

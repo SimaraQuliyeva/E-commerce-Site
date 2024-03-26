@@ -10,7 +10,7 @@ use App\Models\Slider;
 class IndexController extends Controller
 {
     public function index(){
-        $slider=Slider::all();
+        $slider = Slider::where('status', 1)->get();
 //        dd($slider);
         $about=About::where('id', 1)->get();
         return view('front.pages.index', compact('slider', 'about'));
