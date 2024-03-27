@@ -30,6 +30,9 @@ Route::group(['middleware'=>['adminSetting'], 'prefix'=>'admin', 'as'=>'admin.']
     Route::get('/contact/{id}/edit',[ContactController::class, 'edit'])->name('contact.edit');
     Route::put('/contact/{id}/update',[ContactController::class, 'update'])->name('contact.update');
 
+    Route::delete('/contact/delete',[ContactController::class, 'destroy'])->name('contact.destroy');
+    Route::post('/contact-status/update',[ContactController::class, 'status'])->name('contact.status');
+
 
 });
 

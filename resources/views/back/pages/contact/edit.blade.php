@@ -17,28 +17,30 @@
                 </div>
             @endif
 
-            <form  action="{{route('admin.contact.update', $contact->id}}" class="forms-sample" method="post" enctype="multipart/form-data">
+            <form  action="{{route('admin.contact.update', $contact->id) }}" class="forms-sample" method="post" enctype="multipart/form-data">
                 @csrf
-                @if(!empty($contact->id))
                     @method('PUT')
-                @endif
                 <div class="form-group">
                     <label for="name">Name</label>
-                    <input type="text" class="form-control" id="name" name="name" value="{{$contact->name ?? ''}}" placeholder="Slider Name">
+                    <input type="text" class="form-control" id="name" name="name" readonly value="{{$contact->c_name ?? ''}}" placeholder="Name">
                     @error('name')
                     <span class="text-danger">{{ $message }}</span>
                     @enderror
                 </div>
                 <div class="form-group">
-                    <label for="content">Content</label>
-                    <textarea class="form-control" id="content" name="content" placeholder="Slider Content" rows="3">{!! $contact->content ?? '' !!}</textarea>
-                    @error('content')
+                    <label for="email">Email</label>
+                    <textarea class="form-control" id="email" name="email" placeholder="Email" readonly>{!! $contact->c_email ?? '' !!}</textarea>
+                    @error('email')
                     <span class="text-danger">{{ $message }}</span>
                     @enderror
                 </div>
                 <div class="form-group">
-                    <label for="link">Link</label>
-                    <input type="text" class="form-control" id="link" name="link" value="{{$contact->link ?? ''}}" placeholder="Slider Link">
+                    <label for="subject">Subject</label>
+                    <input type="text" class="form-control" id="subject" name="subject" readonly value="{{$contact->c_subject ?? ''}}" placeholder="Subject">
+                </div>
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <input type="text" class="form-control" id="message" name="message" readonly value="{{$contact->c_message ?? ''}}" placeholder="Message">
                 </div>
 
                 <div class="form-group">

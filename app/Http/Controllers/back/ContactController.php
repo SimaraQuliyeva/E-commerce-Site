@@ -10,18 +10,23 @@ class ContactController extends Controller
 {
     public function index()
     {
-        $contact=Contact::where('id',1)->first();
-        return view('back.pages.contact.index',compact('contact'));
+        $contacts=Contact::paginate('10');
+        return view('back.pages.contact.index',compact('contacts'));
     }
 
     public function edit($id)
     {
+        $contact = Contact::where('id', $id)->firstOrFail();
+        return view('back.pages.contact.edit',compact('contact'));
 
     }
 
-    public function update($id)
+    public function update(Request $request,$id)
     {
-
+        $update = $request->status;
+        $status = $update == 'true' ? true : false;
+        Contact::where('id', $id)->update(['status' => $status]);
+        return back()->with('success', 'Contact updated successfully!');
     }
 
     public function destroy(Request $request)

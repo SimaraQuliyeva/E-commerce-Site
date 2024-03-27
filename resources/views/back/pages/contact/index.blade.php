@@ -29,8 +29,8 @@
                                     <th>Email</th>
                                     <th>Subject</th>
                                     <th>Message</th>
-                                    <th>Status</th>
                                     <th>IP</th>
+                                    <th>Status</th>
                                     <th>Edit</th>
                                 </tr>
                                 </thead>
@@ -38,10 +38,11 @@
                                 @if(!empty($contacts) && $contacts->count() > 0)
                                     @foreach($contacts as $contact)
                                         <tr class="item" item-id="{{$contact->id}}">
-                                            <td>{{$contact->name}}</td>
-                                            <td>{{$contact->email ?? ''}}</td>
-                                            <td>{{$contact->subject}}</td>
-                                            <td>{{$contact->message}}</td>
+                                            <td>{{$contact->id}}</td>
+                                            <td>{{$contact->c_name}}</td>
+                                            <td>{{$contact->c_email ?? ''}}</td>
+                                            <td>{{$contact->c_subject}}</td>
+                                            <td>{{ Str::limit($contact->c_message, 150) }}</td>
                                             <td>{{$contact->ip}}</td>
                                             <td>
                                                 <div class="checkbox">
@@ -62,6 +63,12 @@
 
                                 </tbody>
                             </table>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                        {{$contacts->links('pagination::bootstrap-5')}}
                         </div>
                     </div>
                 </div>
@@ -110,7 +117,7 @@
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
                         type:"DELETE",
-                        url:"{{route('admin.contact .destroy') }}",
+                        url:"{{route('admin.contact.destroy') }}",
                         data:{
                             id:id,
                         },
