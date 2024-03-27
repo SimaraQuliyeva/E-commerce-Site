@@ -11,12 +11,12 @@
     <div class="site-section">
         <div class="container">
             @if(session('success'))
-                <div class="alert alert-success mt-3">
+                <div class="alert alert-success mt-3" id="success-div">
                     {{ session('success') }}
                 </div>
             @endif
             @if(session('error'))
-                <div class="alert alert-danger mt-3">
+                <div class="alert alert-danger mt-3" id="error-div">
                     {{ session('error') }}
                 </div>
             @endif

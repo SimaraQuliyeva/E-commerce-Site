@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\back\AboutController;
 use App\Http\Controllers\back\CategoryController;
+use App\Http\Controllers\back\ContactController;
 use App\Http\Controllers\back\IndexController;
 use App\Http\Controllers\back\SliderController;
 use Illuminate\Support\Facades\Route;
@@ -19,6 +21,14 @@ Route::group(['middleware'=>['adminSetting'], 'prefix'=>'admin', 'as'=>'admin.']
     Route::resource('/category',CategoryController::class)->except('destroy');
     Route::delete('/category/delete',[CategoryController::class, 'destroy'])->name('category.destroy');
     Route::post('/category-status/update',[CategoryController::class, 'status'])->name('category.status');
+
+
+    Route::get('/about',[AboutController::class, 'index'])->name('about');
+    Route::post('/about/update',[AboutController::class, 'update'])->name('about.update');
+
+    Route::get('/contact',[ContactController::class, 'index'])->name('contact');
+    Route::get('/contact/{id}/edit',[ContactController::class, 'edit'])->name('contact.edit');
+    Route::put('/contact/{id}/update',[ContactController::class, 'update'])->name('contact.update');
 
 
 });

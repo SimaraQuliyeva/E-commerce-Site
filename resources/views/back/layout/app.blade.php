@@ -248,6 +248,8 @@
 <script src="{{asset('back/js/file-upload.js')}} "></script>
 <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+<script src="{{asset('/ckeditor/ckeditor.js')}}"></script>
+<script src="https://cdn.ckeditor.com/ckeditor5/41.2.1/classic/translations/az.js"></script>
 
 
 <script>
@@ -265,6 +267,7 @@
         }, 5000);
     });
 </script>
+
 @yield('customJs')
 </body>
 

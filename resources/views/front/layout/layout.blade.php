@@ -21,5 +21,21 @@
 @yield('customJs')
 <script src='{{asset ("front/js/main.js") }}'></script>
 
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(function() {
+            var successDiv = document.getElementById('success-div');
+            if (successDiv) {
+                successDiv.style.display = 'none';
+            }
+
+            var errorDiv = document.getElementById('error-div');
+            if (errorDiv) {
+                errorDiv.style.display = 'none';
+            }
+        }, 5000);
+    });
+</script>
+
 </body>
 </html>

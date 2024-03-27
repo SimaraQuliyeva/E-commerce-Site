@@ -63,7 +63,7 @@
 
                 <div class="form-group">
                     <div class="input-group col-xs-12">
-                      <img src="{{ Storage::url($slider->image ?? 'img/empty.webp') }}" alt="">
+                      <img src="{{ Storage::url($slider->image ?? 'img/empty.webp') }}" class="w-50" alt="">
                     </div>
                 </div>
 
