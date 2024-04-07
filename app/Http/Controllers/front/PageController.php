@@ -13,24 +13,27 @@ class PageController extends Controller
     public function product(Request $request, $slug=null)
     {
         $category=request()->segment(1) ?? null;
-        $size = $request->size ?? null;
-        $color = $request->color ?? null;
-        $startPrice = $request->start_price ?? null;
-        $endPrice = $request->end_price ?? null;
+        $size = !empty($request->size) ? explode(',',$request->size) : null;
+        $color = !empty($request->color) ? explode(',',$request->color) : null;
+        $startPrice = $request->min ?? null;
+        $endPrice = $request->max ?? null;
 
         $orderBy = $request->orderBy ?? 'id';
         $sort = $request->sort ?? 'desc';
+//        dd($endPrice);
 
-        $products = Product::where('status', '1')->select(['id', 'name', 'slug', 'size', 'color', 'price', 'category_id', 'image'])
+       $products = Product::where('status', '1')->select(['id', 'name', 'slug', 'size', 'color', 'price', 'category_id', 'image'])
             ->where(function ($q) use ($size, $color, $startPrice, $endPrice) {
                 if (!empty($size)) {
-                    $q->where('size', $size);
+                    $q->whereIn('size', $size);
                 }
                 if (!empty($color)) {
-                    $q->where('color', $color);
+                    $q->whereIn('color', $color);
                 }
                 if (!empty($startPrice) && $endPrice) {
-                    $q->whereBetween('price', [$startPrice, $endPrice]);
+//                    $q->whereBetween('price', [$startPrice, $endPrice]);
+                    $q->where('price','>=',$startPrice);
+                    $q->where('price','<=',$endPrice);
                 }
                 return $q;
             })
@@ -40,20 +43,27 @@ class PageController extends Controller
                 $query->where('slug', $slug);
                 }
                 return $query;
-            });
+            })->orderBy($orderBy, $sort)->paginate(21);
 
-        $minPrice = $products->min('price');
-        $maxPrice = $products->max('price');
+//        $minPrice = $products->min('price');
+//        $maxPrice = $products->max('price');
 
+        if($request->ajax()){
+            $view=view('front.ajax.productList',compact('products'))->render();
+            return response(['data'=>$view, 'paginate'=>(string) $products->links()]);
+        }
         $sizeList =  Product::where('status', '1')->groupBy('size')->pluck('size')->toArray();
 
         $colors =  Product::where('status', '1')->groupBy('color')->pluck('color')->toArray();
 
+//        $products = $products;
 
-        $products = $products->orderBy($orderBy, $sort)->paginate(21);
+        $maxPrice = Product::max('price');
+
+//        $categories= Category::where('status', '1')->where('cat_child', null)->withCount('products')->get();
 
         return view('front.pages.product', compact('products',
-            'minPrice', 'maxPrice', 'sizeList', 'colors'));
+             'maxPrice', 'sizeList', 'colors'));
 
     }
 

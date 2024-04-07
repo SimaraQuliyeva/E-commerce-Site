@@ -30,59 +30,38 @@
                                 <div class="dropdown mr-1 ml-md-auto">
                                 </div>
                                 <div class="btn-group">
-                                    <button type="button" class="btn btn-secondary btn-sm dropdown-toggle" id="dropdownMenuReference" data-toggle="dropdown">Reference</button>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuReference">
-                                        <a class="dropdown-item" href="#">Relevance</a>
-                                        <a class="dropdown-item" href="#" data-order="a_z_order">Name, A to Z</a>
-                                        <a class="dropdown-item" href="#" data-order="z_a_order">Name, Z to A</a>
-                                        <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" href="#" data-order="price_min_order">Price, low to high</a>
-                                        <a class="dropdown-item" href="#" data-order="price_max_order">Price, high to low</a>
-                                    </div>
+                                    <select class="form-control" id="orderList">
+                                        <option class="dropdown-item" value="" data-order="">Choose the option</option>
+                                        <option class="dropdown-item" value="id,asc">Name, A to Z</option>
+                                        <option class="dropdown-item" value="id,desc">Name, Z to A</option>
+                                        <option class="dropdown-item" value="price,asc">Price, low to high</option>
+                                        <option class="dropdown-item" value="price,desc">Price, high to low</option>
+                                    </select>
+
+
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="row mb-5">
-
-                        @if(!empty($products) && $products->count() > 0)
-                            @foreach($products as $product)
-                                <div class="col-sm-6 col-lg-4 mb-4" data-aos="fade-up">
-                                    <div class="block-4 text-center border">
-                                        <form action="{{route('front.cart.add')}}" method="post">
-                                            @csrf
-                                            <input type="hidden" name="productId" value="{{$product->id}}">
-                                        <figure class="block-4-image">
-                                            <a href="{{route('front.product.details', $product->slug)}}"><img src='{{asset($product->image) }}' alt="Image placeholder" class="img-fluid"></a>
-                                        </figure>
-                                        <div class="block-4-text p-4">
-                                            <h3><a href="{{route('front.product.details',$product->slug)}}">{{$product->name}}</a></h3>
-                                            <p class="mb-0">{{$product->details}}</p>
-                                            <p class="text-primary font-weight-bold">${{$product->price}}</p>
-                                            <p><button type="submit"  class="buy-now btn btn-sm btn-primary">Add To Cart</button></p>
-                                        </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            @endforeach
-                        @endif
-
+                    <div class="row mb-5 productContent">
+                        @include('front.ajax.productList')
 
                     </div>
-                    <div class="row" data-aos="fade-up">
-                        <div class="col-md-12 text-center">
-                            <div class="site-block-27">
-                                <ul>
-                                    <li><a href="#">&lt;</a></li>
-                                    <li class="active"><span>1</span></li>
-                                    <li><a href="#">2</a></li>
-                                    <li><a href="#">3</a></li>
-                                    <li><a href="#">4</a></li>
-                                    <li><a href="#">5</a></li>
-                                    <li><a href="#">&gt;</a></li>
-                                </ul>
-                            </div>
-                        </div>
+                    <div class="row paginateButtons" data-aos="fade-up">
+                        {{$products->links('pagination::bootstrap-5')}}
+{{--                        <div class="col-md-12 text-center">--}}
+{{--                            <div class="site-block-27">--}}
+{{--                                <ul>--}}
+{{--                                    <li><a href="#">&lt;</a></li>--}}
+{{--                                    <li class="active"><span>1</span></li>--}}
+{{--                                    <li><a href="#">2</a></li>--}}
+{{--                                    <li><a href="#">3</a></li>--}}
+{{--                                    <li><a href="#">4</a></li>--}}
+{{--                                    <li><a href="#">5</a></li>--}}
+{{--                                    <li><a href="#">&gt;</a></li>--}}
+{{--                                </ul>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
                     </div>
                 </div>
 
@@ -104,15 +83,18 @@
                             <div id="slider-range" class="border-primary"></div>
                             <label>
                             <input type="text" name="text" id="amount" class="form-control border-0 pl-0 bg-white" disabled="" />
+
+                           <input type="text" name="text" id="priceBetween" class="form-control" hidden="" />
+
                             </label>
                         </div>
 
                         <div class="mb-4">
                             <h3 class="mb-3 h6 text-uppercase text-black d-block">Size</h3>
                             @if(!empty($sizeList))
-                                @foreach($sizeList as $item)
-                                    <label for="s_sm" class="d-flex">
-                                        <input type="checkbox" id="s_sm" class="mr-2 mt-1"> <span class="text-black">{{$item}}</span>
+                                @foreach($sizeList as $key=> $size)
+                                    <label for="size{{$key}}" class="d-flex">
+                                        <input type="checkbox" id="size{{$key}}" value="{{$size}}" {{isset(request()->size) && in_array($size, explode(',',request()->size)) ? 'checked' : ''}} class="mr-2 mt-1 size"><span class="text-black">{{$size}}</span>
                                     </label>
                                 @endforeach
                             @endif
@@ -121,14 +103,18 @@
                         <div class="mb-4">
                             <h3 class="mb-3 h6 text-uppercase text-black d-block">Color</h3>
                             @if(!empty($colors))
-                                @foreach($colors as $color)
-                                    <a href="#" class="d-flex color-item align-items-center" >
-                                        <span class="bg-danger color d-inline-block rounded-circle mr-2"></span> <span class="text-black">{{$color}}</span>
-                                    </a>
+                                @foreach($colors as $key=> $color)
+                                    <label for="color{{$key}}" class="d-flex">
+                                        <input type="checkbox" id="color{{$key}}" value="{{$color}}"  {{isset(request()->color) && in_array($color, explode(',',request()->color)) ? 'checked' : ''}} class="mr-2 mt-1 color"> <span class="text-black">{{$color}}</span>
+                                    </label>
                                 @endforeach
                             @endif
-
                         </div>
+
+                        <div class="mb-4">
+                            <button class="btn btn-block btn-primary filterBtn" id="filterBtn">Filter</button>
+                        </div>
+
 
                     </div>
                 </div>
@@ -172,7 +158,63 @@
 
 @section('customJs')
 <script>
-    var minPrice = "{{$minPrice}}";
-    var maxPrice = "{{$maxPrice}}";
+    var maxPrice = "{{ $maxPrice }}";
+    var defaultMinPrice = "{{ request()->min ?? 0}}";
+    var defaultMaxPrice = "{{ request()->max ?? $maxPrice}}";
+
+    var url=new URL(window.location.href);
+    $(document).on('click', '#filterBtn', function(e) {
+       filter();
+    });
+
+    function filter(){
+        let color = $(".color:checked").map((_, chk) => chk.value).get();
+        let size = $(".size:checked").map((_, chk) => chk.value).get();
+        if(color.length > 0){
+            url.searchParams.set('color', color.join(','));
+        } else{
+            url.searchParams.delete('color');
+        }
+        if(size.length > 0){
+            url.searchParams.set('size', size.join(','));
+        } else{
+            url.searchParams.delete('size');
+        }
+        var price=$('#priceBetween').val().split('-');
+        url.searchParams.set("min",price[0]);
+        url.searchParams.set("max",price[1]);
+
+        newUrl=url.href;
+        window.history.pushState({},'',newUrl);
+        // location.reload();
+
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type:"GET",
+            url:newUrl,
+            success: function (response) {
+               $('.productContent').html(response.data)
+               $('.paginateButtons').html(response.paginate)
+            }
+        });
+
+
+    }
+
+    $(document).on('change', '#orderList', function(e) {
+        var order=$(this).val();
+        if(order !== ''){
+          orderBy = order.split(',');
+        url.searchParams.set("orderBy",orderBy[0]);
+        url.searchParams.set("sort",orderBy[1]);
+        }else{
+            url.searchParams.delete('orderBy');
+            url.searchParams.delete('sort');
+        }
+
+        filter();
+        });
 </script>
 @endsection
