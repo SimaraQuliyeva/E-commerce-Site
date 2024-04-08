@@ -4,6 +4,7 @@ use App\Http\Controllers\back\AboutController;
 use App\Http\Controllers\back\CategoryController;
 use App\Http\Controllers\back\ContactController;
 use App\Http\Controllers\back\IndexController;
+use App\Http\Controllers\back\SettingController;
 use App\Http\Controllers\back\SliderController;
 use Illuminate\Support\Facades\Route;
 
@@ -29,10 +30,16 @@ Route::group(['middleware'=>['adminSetting'], 'prefix'=>'admin', 'as'=>'admin.']
     Route::get('/contact',[ContactController::class, 'index'])->name('contact');
     Route::get('/contact/{id}/edit',[ContactController::class, 'edit'])->name('contact.edit');
     Route::put('/contact/{id}/update',[ContactController::class, 'update'])->name('contact.update');
-
     Route::delete('/contact/delete',[ContactController::class, 'destroy'])->name('contact.destroy');
     Route::post('/contact-status/update',[ContactController::class, 'status'])->name('contact.status');
 
+
+    Route::get('/setting',[SettingController::class, 'index'])->name('setting');
+    Route::get('/setting/create',[SettingController::class, 'create'])->name('setting.create');
+    Route::post('/setting/store',[SettingController::class, 'store'])->name('setting.store');
+    Route::get('/setting/{id}/edit',[SettingController::class, 'edit'])->name('setting.edit');
+    Route::put('/setting/{id}/update',[SettingController::class, 'update'])->name('setting.update');
+    Route::delete('/setting/delete',[SettingController::class, 'destroy'])->name('setting.destroy');
 
 });
 

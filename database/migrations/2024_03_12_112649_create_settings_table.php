@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('address');
             $table->integer('phone');
             $table->string('email');
+            $table->string('set_type')->nullable();
             $table->timestamps();
         });
     }
