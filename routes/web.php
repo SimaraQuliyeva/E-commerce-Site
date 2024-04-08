@@ -35,6 +35,7 @@ Route::group(['middleware'=>'setting'],function (){
     Route::get('/cart',[CartController::class, 'index'])->name('front.cart');
     Route::post('/cart/add',[CartController::class, 'add'])->name('front.cart.add');
     Route::post('/cart/delete',[CartController::class,'delete'])->name('front.cart.delete');
+    Route::post('/cart/coupon',[CartController::class,'coupon'])->name('coupon.check');
 
 
     Auth::routes();
