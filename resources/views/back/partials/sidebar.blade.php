@@ -19,19 +19,35 @@
                 </ul>
             </div>
         </li>
+
         <li class="nav-item">
-            <a class="nav-link" data-toggle="collapse" href="#form-elements" aria-expanded="false" aria-controls="form-elements">
+            <a class="nav-link" data-toggle="collapse" href="#form-elements1" aria-expanded="false" aria-controls="form-elements1">
                 <i class="icon-columns menu-icon"></i>
                 <span class="menu-title">Categories</span>
                 <i class="menu-arrow"></i>
             </a>
-            <div class="collapse" id="form-elements">
+            <div class="collapse" id="form-elements1">
                 <ul class="nav flex-column sub-menu">
                     <li class="nav-item"><a class="nav-link" href="{{route('admin.category.index')}}">Category</a></li>
                     <li class="nav-item"> <a class="nav-link" href="{{route('admin.category.create')}}">Add Category</a></li>
                 </ul>
             </div>
         </li>
+
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#form-elements2" aria-expanded="false" aria-controls="form-elements2">
+                <i class="icon-columns menu-icon"></i>
+                <span class="menu-title">Products</span>
+                <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="form-elements2">
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item"><a class="nav-link" href="{{route('admin.products.index')}}">Products</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="{{route('admin.products.create')}}">Add Products</a></li>
+                </ul>
+            </div>
+        </li>
+
         <li class="nav-item">
             <a class="nav-link" href="{{route('admin.about')}}">
                 <i class="icon-grid menu-icon"></i>
@@ -56,18 +72,7 @@
                 </ul>
             </div>
         </li>
-        <li class="nav-item">
-            <a class="nav-link" data-toggle="collapse" href="#icons" aria-expanded="false" aria-controls="icons">
-                <i class="icon-contract menu-icon"></i>
-                <span class="menu-title">Icons</span>
-                <i class="menu-arrow"></i>
-            </a>
-            <div class="collapse" id="icons">
-                <ul class="nav flex-column sub-menu">
-                    <li class="nav-item"> <a class="nav-link" href="pages/icons/mdi.html">Mdi icons</a></li>
-                </ul>
-            </div>
-        </li>
+
         <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
                 <i class="icon-head menu-icon"></i>

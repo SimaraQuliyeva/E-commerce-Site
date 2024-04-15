@@ -33,9 +33,14 @@ Route::group(['middleware'=>'setting'],function (){
     Route::post('/contact',[AjaxController::class, 'contactSave'])->name('front.contact.post');
 
     Route::get('/cart',[CartController::class, 'index'])->name('front.cart');
+    Route::get('/cart/form',[CartController::class, 'cartForm'])->name('front.cart.form');
+
     Route::post('/cart/add',[CartController::class, 'add'])->name('front.cart.add');
     Route::post('/cart/delete',[CartController::class,'delete'])->name('front.cart.delete');
     Route::post('/cart/coupon',[CartController::class,'coupon'])->name('coupon.check');
+    Route::post('/cart/newQty',[CartController::class,'newQty'])->name('front.cart.newQty');
+    Route::post('/cart/save',[CartController::class, 'cartSave'])->name('front.cart.save');
+
 
 
     Auth::routes();

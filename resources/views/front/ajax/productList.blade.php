@@ -6,7 +6,7 @@
                     @csrf
                     <input type="hidden" name="productId" value="{{$product->id}}">
                     <figure class="block-4-image">
-                        <a href="{{route('front.product.details', $product->slug)}}"><img src='{{asset($product->image) }}' alt="Image placeholder" class="img-fluid"></a>
+                        <a href="{{route('front.product.details', $product->slug)}}"><img src='{{Storage::url($product->image) }}' alt="Image placeholder" class="img-fluid"></a>
                     </figure>
                     <div class="block-4-text p-4">
                         <h3><a href="{{route('front.product.details',$product->slug)}}">{{$product->name}}</a></h3>

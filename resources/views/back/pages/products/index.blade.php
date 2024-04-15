@@ -6,75 +6,129 @@
             <div class="col-lg-12 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title">Hoverable Table</h4>
+                        <h4 class="card-title">Products Table</h4>
                         <p class="card-description">
-                            Add class <code>.table-hover</code>
+                            <a href="{{route('admin.products.create')}}" class="btn btn-primary">+Add</a>
                         </p>
                         <div class="table-responsive">
+                            @if(session('success'))
+                                <div class="alert alert-success mt-3" id="success-div">
+                                    {{ session('success') }}
+                                </div>
+                            @endif
+                            @if(session('error'))
+                                <div class="alert alert-danger mt-3" id="error-div">
+                                    {{ session('error') }}
+                                </div>
+                            @endif
                             <table class="table table-hover">
                                 <thead>
                                 <tr>
                                     <th>Image</th>
-                                    <th>User</th>
-                                    <th>Product</th>
-                                    <th>Sale</th>
+                                    <th>Name</th>
+                                    <th>Content</th>
+                                    <th>Price</th>
                                     <th>Status</th>
+                                    <th>Edit</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td class="py-1">
-                                        <img src="{{asset('back/images/faces/face1.jpg') }}" alt="image"/>
-                                    </td>
-                                    <td>Jacob</td>
-                                    <td>Photoshop</td>
-                                    <td class="text-danger"> 28.76% <i class="ti-arrow-down"></i></td>
-                                    <td><label class="badge badge-danger">Pending</label></td>
-                                </tr>
-                                <tr>
-                                    <td class="py-1">
-                                        <img src="{{asset('back/images/faces/face1.jpg') }}" alt="image"/>
-                                    </td>
-                                    <td>Messsy</td>
-                                    <td>Flash</td>
-                                    <td class="text-danger"> 21.06% <i class="ti-arrow-down"></i></td>
-                                    <td><label class="badge badge-warning">In progress</label></td>
-                                </tr>
-                                <tr>
-                                    <td class="py-1">
-                                        <img src="{{asset('back/images/faces/face1.jpg') }}" alt="image"/>
-                                    </td>
-                                    <td>John</td>
-                                    <td>Premier</td>
-                                    <td class="text-danger"> 35.00% <i class="ti-arrow-down"></i></td>
-                                    <td><label class="badge badge-info">Fixed</label></td>
-                                </tr>
-                                <tr>
-                                    <td class="py-1">
-                                        <img src="{{asset('back/images/faces/face1.jpg') }}" alt="image"/>
-                                    </td>
-                                    <td>Peter</td>
-                                    <td>After effects</td>
-                                    <td class="text-success"> 82.00% <i class="ti-arrow-up"></i></td>
-                                    <td><label class="badge badge-success">Completed</label></td>
-                                </tr>
-                                <tr>
-                                    <td class="py-1">
-                                        <img src="{{asset('back/images/faces/face1.jpg') }}" alt="image"/>
-                                    </td>
-                                    <td>Dave</td>
-                                    <td>53275535</td>
-                                    <td class="text-success"> 98.05% <i class="ti-arrow-up"></i></td>
-                                    <td><label class="badge badge-warning">In progress</label></td>
-                                </tr>
+                                @if(!empty($products) && $products->count() > 0)
+                                    @foreach($products as $item)
+                                        <tr class="item" item-id="{{$item->id}}">
+                                            <td class="py-1">
+                                                <img src="{{ Storage::url($item->image) }}" alt="image"
+                                                     style="width: 50px; height: 50px"/>
+                                            </td>
+                                            <td>{{$item->name}}</td>
+                                            <td>{!! $item->content ?? '' !!}</td>
+                                            <td>${{$item->price}}</td>
+                                            <td>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" class="status"  data-on="active" data-off="passive" data-onstyle="success"
+                                                               data-offstyle="danger" {{$item->status == '1' ? 'checked': ''}} data-toggle="toggle">
+                                                    </label>
+                                                </div>
+                                            </td>
+                                            <td class="d-flex">
+                                                <a href="{{route('admin.products.edit', $item->id)}}" class="btn btn-primary mr-2 btn-sm">Edit</a>
+                                                <button type="button" class="del btn btn-danger btn-sm">Delete</button>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                @endif
+
                                 </tbody>
                             </table>
                         </div>
+                        {{$products->links('pagination::bootstrap-4')}}
                     </div>
                 </div>
             </div>
 
         </div>
     </div>
+@endsection
 
+@section('customJs')
+    <script>
+        $(document).on('change', '.status', function(e) {
+
+            id=$(this).closest('.item').attr('item-id');
+            statu=$(this).prop('checked');
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                type:"POST",
+                url:"{{route('admin.products.status') }}",
+                data:{
+                    id:id,
+                    statu:statu
+                },
+                success: function (response) {
+                    if (response.status == true)
+                    {
+                        alertify.success("Status is active");
+                    } else{
+                        alertify.error("Status is passive");
+                    }
+                }
+            });
+        });
+
+        $(document).on('click', '.del', function(e) {
+            e.preventDefault();
+            var item=$(this).closest('.item');
+            id=item.attr('item-id');
+            alertify.confirm("Are you sure?","Are you sure you want to delete?",
+                function(){
+
+                    $.ajax({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        type:"DELETE",
+                        url:"{{route('admin.products.destroy') }}",
+                        data:{
+                            id:id,
+                        },
+                        success: function (response) {
+                            if (response.error == false)
+                            {
+                                item.remove();
+                                alertify.success(response.message);
+                            } else{
+                                alertify.error("Operation failured");
+                            }
+                        }
+                    });
+                },
+                function(){
+                    alertify.error('Canceled');
+                });
+        });
+
+    </script>
 @endsection

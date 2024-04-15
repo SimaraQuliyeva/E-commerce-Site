@@ -57,39 +57,22 @@
     <div class="site-section site-blocks-2">
         <div class="container">
             <div class="row">
+                @if(!empty($categories) && $categories->count()>0)
+                    @foreach($categories->where('cat_child', null) as $category)
                 <div class="col-sm-6 col-md-6 col-lg-4 mb-4 mb-lg-0" data-aos="fade" data-aos-delay="">
-                    <a class="block-2-item" href="{{route('front.women-product')}}">
+                    <a class="block-2-item" href="{{url($category->slug)}}">
                         <figure class="image">
-                            <img src='{{asset ("front/images/women.jpg") }}' alt="" class="img-fluid">
+                            <img src='{{Storage::url ($category->image) }}' alt="" class="img-fluid">
                         </figure>
                         <div class="text">
                             <span class="text-uppercase">Collections</span>
-                            <h3>Women</h3>
+                            <h3>{{$category->name}}</h3>
                         </div>
                     </a>
                 </div>
-                <div class="col-sm-6 col-md-6 col-lg-4 mb-5 mb-lg-0" data-aos="fade" data-aos-delay="100">
-                    <a class="block-2-item" href="{{route('front.children-product')}}">
-                        <figure class="image">
-                            <img src='{{asset ("front/images/children.jpg") }}' alt="" class="img-fluid">
-                        </figure>
-                        <div class="text">
-                            <span class="text-uppercase">Collections</span>
-                            <h3>Children</h3>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-sm-6 col-md-6 col-lg-4 mb-5 mb-lg-0" data-aos="fade" data-aos-delay="200">
-                    <a class="block-2-item" href="{{route('front.men-product')}}">
-                        <figure class="image">
-                            <img src='{{asset ("front/images/men.jpg") }}' alt="" class="img-fluid">
-                        </figure>
-                        <div class="text">
-                            <span class="text-uppercase">Collections</span>
-                            <h3>Men</h3>
-                        </div>
-                    </a>
-                </div>
+                    @endforeach
+                @endif
+
             </div>
         </div>
     </div>
@@ -104,66 +87,23 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="nonloop-block-3 owl-carousel">
-                        <div class="item">
-                            <div class="block-4 text-center">
-                                <figure class="block-4-image">
-                                    <img src='{{asset ("front/images/cloth_1.jpg") }}' alt="Image placeholder" class="img-fluid">
-                                </figure>
-                                <div class="block-4-text p-4">
-                                    <h3><a href="#">Tank Top</a></h3>
-                                    <p class="mb-0">Finding perfect t-shirt</p>
-                                    <p class="text-primary font-weight-bold">$50</p>
+                        @if(!empty($lastProducts) && $lastProducts->count()>0)
+                            @foreach($lastProducts as $item)
+                                <div class="item">
+                                    <div class="block-4 text-center">
+                                        <figure class="block-4-image">
+                                            <img src='{{Storage::url($item->image) }}' alt="Image placeholder" class="img-fluid">
+                                        </figure>
+                                        <div class="block-4-text p-4">
+                                            <h3><a href="#">{{$item->name}}</a></h3>
+                                            <p class="mb-0">{{$item->details}}</p>
+                                            <p class="text-primary font-weight-bold">${{$item->price}}</p>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="block-4 text-center">
-                                <figure class="block-4-image">
-                                    <img src='{{asset("front/images/shoe_1.jpg") }}' alt="Image placeholder" class="img-fluid">
-                                </figure>
-                                <div class="block-4-text p-4">
-                                    <h3><a href="#">Corater</a></h3>
-                                    <p class="mb-0">Finding perfect products</p>
-                                    <p class="text-primary font-weight-bold">$50</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="block-4 text-center">
-                                <figure class="block-4-image">
-                                    <img src='{{asset ("front/images/cloth_2.jpg") }}' alt="Image placeholder" class="img-fluid">
-                                </figure>
-                                <div class="block-4-text p-4">
-                                    <h3><a href="#">Polo Shirt</a></h3>
-                                    <p class="mb-0">Finding perfect products</p>
-                                    <p class="text-primary font-weight-bold">$50</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="block-4 text-center">
-                                <figure class="block-4-image">
-                                    <img src='{{asset ("front/images/cloth_3.jpg") }}' alt="Image placeholder" class="img-fluid">
-                                </figure>
-                                <div class="block-4-text p-4">
-                                    <h3><a href="#">T-Shirt Mockup</a></h3>
-                                    <p class="mb-0">Finding perfect products</p>
-                                    <p class="text-primary font-weight-bold">$50</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="block-4 text-center">
-                                <figure class="block-4-image">
-                                    <img src='{{asset ("front/images/shoe_1.jpg") }}' alt="Image placeholder" class="img-fluid">
-                                </figure>
-                                <div class="block-4-text p-4">
-                                    <h3><a href="#">Corater</a></h3>
-                                    <p class="mb-0">Finding perfect products</p>
-                                    <p class="text-primary font-weight-bold">$50</p>
-                                </div>
-                            </div>
-                        </div>
+                            @endforeach
+                        @endif
+
                     </div>
                 </div>
             </div>

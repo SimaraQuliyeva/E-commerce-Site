@@ -77,12 +77,7 @@
 @endsection
 
 @section('customJs')
-{{--<script>--}}
-{{--    alertify--}}
-{{--        .alert("This is an alert dialog.", function(){--}}
-{{--            alertify.message('OK');--}}
-{{--        });--}}
-{{--</script>--}}
+
     <script>
         $(document).on('change', '.status', function(e) {
 

@@ -75,8 +75,15 @@ class PageController extends Controller
 
     public function productDetails($slug)
     {
-        $products = Product::where('slug', $slug)->first();
-        return view('front.pages.product-details', compact('products'));
+        $product=Product::whereSlug($slug)->where('status', '1')->firstOrFail();
+
+        $products = Product::where('id', '!=', $product->id)
+            ->where('category_id', $product->category_id)
+            ->where('status', '1')
+            ->limit(6)
+            ->orderBy('id', 'desc')
+            ->get();
+        return view('front.pages.product-details', compact('products', 'product'));
 
     }
 

@@ -38,34 +38,34 @@
                             <tbody>
                             @if($cartItem)
                                 @foreach($cartItem as $key=> $cart)
-                                    <tr>
+                                    <tr class="orderItem" data-id="{{$key}}">
                                         <td class="product-thumbnail">
-                                            <img src="{{asset($cart['image']) }}" alt="Image" class="img-fluid">
+                                            <img src="{{Storage::url($cart['image']) }}" alt="Image" class="img-fluid">
                                         </td>
                                         <td class="product-name">
                                             <h2 class="h5 text-black">{{$cart['name'] ?? '' }}</h2>
                                         </td>
-                                        <td>{{$cart['price'] }}</td>
+                                        <td>${{$cart['price'] }}</td>
                                         <td>
                                             <div class="input-group mb-3" style="max-width: 120px;">
                                                 <div class="input-group-prepend">
-                                                    <button class="btn btn-outline-primary js-btn-minus" type="button">
+                                                    <button class="btn btn-outline-primary js-btn-minus minusBtn" type="button">
                                                         &minus;
                                                     </button>
                                                 </div>
-                                                <input type="text" class="form-control text-center"
+                                                <input type="text" class="form-control text-center qtyItem"
                                                        value="{{$cart['quantity']}}" placeholder=""
                                                        aria-label="Example text with button addon"
                                                        aria-describedby="button-addon1">
                                                 <div class="input-group-append">
-                                                    <button class="btn btn-outline-primary js-btn-plus" type="button">
+                                                    <button class="btn btn-outline-primary js-btn-plus plusBtn" type="button">
                                                         &plus;
                                                     </button>
                                                 </div>
                                             </div>
 
                                         </td>
-                                        <td>$ {{$cart['price'] * $cart['quantity'] }}</td>
+                                        <td class="itemTotal">$ {{$cart['price'] * $cart['quantity'] }}</td>
                                         <td>
                                             <form action="{{route('front.cart.delete') }}" method="post">
                                                 @csrf
@@ -122,8 +122,7 @@
 
                             <div class="row">
                                 <div class="col-md-12">
-                                    <button class="btn btn-primary btn-lg py-3 btn-block"
-                                            onclick="window.location='checkout.html'">Proceed To Checkout
+                                    <button class="btn btn-primary btn-lg py-3 btn-block paymentButton">Proceed To Checkout
                                     </button>
                                 </div>
                             </div>
@@ -133,4 +132,54 @@
             </div>
         </div>
     </div>
+@endsection
+@section('customJs')
+
+    <script>
+        $(document).on('click', '.paymentButton', function(e) {
+            var url= "{{route('front.cart.form')}}";
+            @if(!empty(session()->get('cart')))
+            window.location.href=url;
+            @endif
+        });
+
+        $(document).on('click', '.minusBtn', function(e) {
+            $('.orderItem').removeClass('selected');
+            $(this).closest('.orderItem').addClass('selected');
+
+            cartUpdate();
+        });
+
+        $(document).on('click', '.plusBtn', function(e) {
+            $('.orderItem').removeClass('selected');
+            $(this).closest('.orderItem').addClass('selected');
+
+            cartUpdate();
+        });
+
+        function cartUpdate(e) {
+            var product_id = $('.selected').closest('.orderItem').attr('data-id');
+            var qty = $('.selected').closest('.orderItem').find('.qtyItem').val();
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                type: "POST",
+                url: "{{ route('front.cart.newQty') }}",
+                data: {
+                    productId: product_id,
+                    quantity: qty,
+                },
+                success: function (response) {
+                    $('.selected').find('.itemTotal').text('$' + response.itemTotal);
+
+                    if (qty == 0) {
+                        $('.selected').remove();
+                    }
+                },
+            });
+        }
+
+
+    </script>
 @endsection
