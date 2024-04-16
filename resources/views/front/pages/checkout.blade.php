@@ -91,14 +91,8 @@
                                     <th>Total</th>
                                     </thead>
                                     <tbody>
-                                    @php
-                                        $totalPrice=0;
-                                    @endphp
                                     @if(session()->get('cart'))
                                         @foreach(session()->get('cart') as $key=>$cart)
-                                            @php
-                                                $totalPrice+=($cart['price'] * $cart['quantity'])
-                                            @endphp
                                             <tr>
                                                 <td>{{$cart['name']}} <strong class="mx-2">x</strong>{{$cart['quantity']}}</td>
                                                 <td>${{$cart['price']}}</td>
@@ -107,44 +101,19 @@
                                     @endif
 
                                     <tr>
+                                        <td class="text-black font-weight-bold"><strong>Sale</strong></td>
+                                        <td class="text-black font-weight-bold"><strong>${{session()->get('coupon_price') ?? 0}}</strong></td>
+                                    </tr>
+                                    <tr>
                                         <td class="text-black font-weight-bold"><strong>Order Total</strong></td>
-                                        <td class="text-black font-weight-bold"><strong>${{$totalPrice}}</strong></td>
+                                        <td class="text-black font-weight-bold"><strong>${{session()->get('total_price') ?? 0}}</strong></td>
                                     </tr>
                                     </tbody>
                                 </table>
 
-                                <div class="border p-3 mb-3">
-                                    <h3 class="h6 mb-0"><a class="d-block" data-toggle="collapse" href="#collapsebank" role="button" aria-expanded="false" aria-controls="collapsebank">Direct Bank Transfer</a></h3>
-
-                                    <div class="collapse" id="collapsebank">
-                                        <div class="py-2">
-                                            <p class="mb-0">Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won’t be shipped until the funds have cleared in our account.</p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="border p-3 mb-3">
-                                    <h3 class="h6 mb-0"><a class="d-block" data-toggle="collapse" href="#collapsecheque" role="button" aria-expanded="false" aria-controls="collapsecheque">Cheque Payment</a></h3>
-
-                                    <div class="collapse" id="collapsecheque">
-                                        <div class="py-2">
-                                            <p class="mb-0">Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won’t be shipped until the funds have cleared in our account.</p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="border p-3 mb-5">
-                                    <h3 class="h6 mb-0"><a class="d-block" data-toggle="collapse" href="#collapsepaypal" role="button" aria-expanded="false" aria-controls="collapsepaypal">Paypal</a></h3>
-
-                                    <div class="collapse" id="collapsepaypal">
-                                        <div class="py-2">
-                                            <p class="mb-0">Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won’t be shipped until the funds have cleared in our account.</p>
-                                        </div>
-                                    </div>
-                                </div>
 
                                 <div class="form-group">
-                                    <button class="btn btn-primary btn-lg py-3 btn-block" onclick="window.location='thankyou.html'">Place Order</button>
+                                    <button class="btn btn-primary btn-lg py-3 btn-block">Place Order</button>
                                 </div>
 
                             </div>

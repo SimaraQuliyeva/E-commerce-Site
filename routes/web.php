@@ -41,6 +41,7 @@ Route::group(['middleware'=>'setting'],function (){
     Route::post('/cart/newQty',[CartController::class,'newQty'])->name('front.cart.newQty');
     Route::post('/cart/save',[CartController::class, 'cartSave'])->name('front.cart.save');
 
+    Route::get('/thankYou',[CartController::class, 'thankYou'])->name('front.thankYou');
 
 
     Auth::routes();
