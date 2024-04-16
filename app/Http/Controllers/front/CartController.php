@@ -178,7 +178,7 @@ class CartController extends Controller
     }
 
     function generateCode(){
-        $orderno=generateOTP(4);
+        $orderno=generateOTP(3);
         if ($this->barcodeCodeExists($orderno)){
             return $this->generateCode();
         }
