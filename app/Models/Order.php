@@ -15,4 +15,5 @@ class Order extends Model
         'price',
         'quantity',
     ];
+
 }

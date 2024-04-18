@@ -34,7 +34,7 @@ class ContactController extends Controller
         $contact = Contact::where('id', $request->id)->firstOrFail();
 
         $contact->delete();
-        return response(['error'=>false, 'message'=>'Slider deleted successfully']);
+        return response(['error'=>false, 'message'=>'Contact deleted successfully']);
 
     }
 

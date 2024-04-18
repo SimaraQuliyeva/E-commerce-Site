@@ -85,7 +85,6 @@
                             <input type="text" name="text" id="amount" class="form-control border-0 pl-0 bg-white" disabled="" />
 
                            <input type="text" name="text" id="priceBetween" class="form-control" hidden="" />
-
                             </label>
                         </div>
 

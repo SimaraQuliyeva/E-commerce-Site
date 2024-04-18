@@ -61,6 +61,12 @@
             </a>
         </li>
         <li class="nav-item">
+            <a class="nav-link" href="{{route('admin.orders')}}">
+                <i class="icon-grid menu-icon"></i>
+                <span class="menu-title">Orders</span>
+            </a>
+        </li>
+        <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#tables" aria-expanded="false" aria-controls="tables">
                 <i class="icon-grid-2 menu-icon"></i>
                 <span class="menu-title">Settings</span>

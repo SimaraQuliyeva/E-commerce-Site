@@ -4,6 +4,7 @@ use App\Http\Controllers\back\AboutController;
 use App\Http\Controllers\back\CategoryController;
 use App\Http\Controllers\back\ContactController;
 use App\Http\Controllers\back\IndexController;
+use App\Http\Controllers\back\OrderController;
 use App\Http\Controllers\back\ProductController;
 use App\Http\Controllers\back\SettingController;
 use App\Http\Controllers\back\SliderController;
@@ -46,6 +47,14 @@ Route::group(['middleware'=>['adminSetting'], 'prefix'=>'admin', 'as'=>'admin.']
     Route::get('/setting/{id}/edit',[SettingController::class, 'edit'])->name('setting.edit');
     Route::put('/setting/{id}/update',[SettingController::class, 'update'])->name('setting.update');
     Route::delete('/setting/delete',[SettingController::class, 'destroy'])->name('setting.destroy');
+
+
+    Route::get('/orders',[OrderController::class, 'index'])->name('orders');
+    Route::get('/orders/{id}/edit',[OrderController::class, 'edit'])->name('orders.edit');
+    Route::put('/orders/{id}/update',[ContactController::class, 'update'])->name('orders.update');
+    Route::delete('/orders/delete',[OrderController::class, 'destroy'])->name('orders.destroy');
+    Route::post('/orders-status/update',[OrderController::class, 'status'])->name('orders.status');
+
 
 });
 
