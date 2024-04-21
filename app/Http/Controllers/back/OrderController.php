@@ -63,11 +63,9 @@ class OrderController extends Controller
         $invoice = Invoice::findOrFail($invoiceId);
         $totalPrice = $invoice->orders()->sum('price');
 
-        // Kupon indirimi varsa uygula
         $couponPrice = $invoice->coupon->price ?? 0;
         $totalPrice -= $couponPrice;
 
-        // Toplam fiyatı güncelle
         $invoice->update(['total_price' => $totalPrice]);
 
         return redirect()->back()->withSuccess('Total price updated successfully');
